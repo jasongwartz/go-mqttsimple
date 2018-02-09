@@ -43,7 +43,6 @@ type callback func(string)
 //	given topic, and calls the callback (passing the message as a string param)
 //	for every published message.
 func (mosq *Mosquitto) Sub(topic string, callbackParam callback) {
-	receiveCount := 0
 	choke := make(chan [2]string)
 
 	opts := mqtt.NewClientOptions()
@@ -67,7 +66,6 @@ func (mosq *Mosquitto) Sub(topic string, callbackParam callback) {
 	for {
 		incoming := <-choke
 		callbackParam(incoming[1])
-		receiveCount++
 	}
 }
 
